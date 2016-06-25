@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/TranslatorApp.iml" filepath="$PROJECT_DIR$/TranslatorApp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Repo3.iml" filepath="$PROJECT_DIR$/Repo3.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/realTalk.iml" filepath="$PROJECT_DIR$/realTalk.iml" />
     </modules>
   </component>
 </project>
