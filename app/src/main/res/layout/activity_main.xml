@@ -7,17 +7,52 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:background="#e6f9"
+    android:background="@drawable/s"
     tools:context="bonfirestudio.realtalk.MainActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:text="Press to Translate"
+        android:textSize="20dp"
+        android:textColor="#fff"
+        android:alpha="0.5"
+
+        android:paddingBottom="32dp"
+        android:layout_above="@+id/listenButton"
+        android:layout_centerHorizontal="true" />
+
+
+
+    <FrameLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:elevation="200dp">
+
+        <at.markushi.ui.CircleButton
+            android:layout_width="250dip"
+            android:layout_height="250dip"
+            app:cb_color="#fff"
+            android:id="@+id/listenButton2"
+            app:cb_pressedRingWidth="35dip"
+            android:layout_gravity="center"
+            android:elevation="20dp"/>
+    </FrameLayout>
 
     <Button
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="start to listen"
+        android:background="@drawable/roundbutton"
+
+        android:elevation="10dp"
         android:id="@+id/listenButton"
         android:minHeight="150dp"
-        android:maxWidth="200dp"
+        android:minWidth="150dp"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
+
 </RelativeLayout>

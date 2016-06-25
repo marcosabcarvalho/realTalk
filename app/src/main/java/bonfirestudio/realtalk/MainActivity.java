@@ -16,6 +16,8 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Locale;
 
+import at.markushi.ui.CircleButton;
+
 public class MainActivity extends AppCompatActivity {
 
     private TextView txtSpeechInput;
@@ -27,14 +29,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         final Button button = (Button) findViewById(R.id.listenButton);
+        final CircleButton button2 = (CircleButton) findViewById(R.id.listenButton2);
 
-        button.setOnClickListener(new View.OnClickListener() {
+        button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                        Toast.makeText(MainActivity.this, "this is my Toast message!!! =)",
-                                Toast.LENGTH_SHORT).show();
+                      //  Toast.makeText(MainActivity.this, "this is my Toast message!!! =)", Toast.LENGTH_SHORT).show();
                         promptSpeechInput();
-                        Toast.makeText(MainActivity.this,"PROCESSING",Toast.LENGTH_SHORT).show();
+                      //  Toast.makeText(MainActivity.this,"PROCESSING",Toast.LENGTH_SHORT).show();
             }
         });
 
