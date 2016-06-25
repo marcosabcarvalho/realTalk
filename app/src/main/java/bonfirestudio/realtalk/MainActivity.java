@@ -28,23 +28,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         final Button button = (Button) findViewById(R.id.listenButton);
 
-        button.setOnTouchListener(new View.OnTouchListener() {
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch(event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-
+            public void onClick(View v) {
                         Toast.makeText(MainActivity.this, "this is my Toast message!!! =)",
                                 Toast.LENGTH_SHORT).show();
-
                         promptSpeechInput();
-
-                        return true; // if you want to handle the touch event */
-                    case MotionEvent.ACTION_UP:
                         Toast.makeText(MainActivity.this,"PROCESSING",Toast.LENGTH_SHORT).show();
-                        return true; // if you want to handle the touch event
-                }
-                return false;
             }
         });
 
@@ -79,7 +69,9 @@ public class MainActivity extends AppCompatActivity {
                     ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
                     Intent i = new Intent(MainActivity.this, LanguageChoiceActivity.class);;
                     Bundle b = new Bundle();
-                    b.putStringArray("text", new String[]{String.valueOf(result.toArray())});
+                    String[] stringToSend = new String[result.size()];
+                    stringToSend = result.toArray(stringToSend);
+                    b.putStringArray("text", stringToSend);
                     i.putExtras(b);
                     startActivity(i);
                 }

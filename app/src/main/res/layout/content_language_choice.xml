@@ -12,4 +12,12 @@
     tools:context="bonfirestudio.realtalk.LanguageChoiceActivity"
     tools:showIn="@layout/activity_language_choice">
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Faggot"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="208dp"
+        android:id="@+id/backBtn" />
 </RelativeLayout>
