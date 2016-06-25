@@ -27,7 +27,18 @@ public class LanguageChoiceActivity extends AppCompatActivity {
             @Override
             public void onInit(int status) {
                 if(status == TextToSpeech.SUCCESS) {
-                    speak(text.toString());
+                    StringBuilder sb = new StringBuilder();
+                    for(String s: text) {
+                        sb.append(s);
+                        sb.append("");
+                        break;
+                    }
+                    String newString = new String();
+                    newString = sb.toString();
+                    if(sb.toString().contains("*")) {
+                        newString = sb.toString().replace("*", "");
+                    }
+                    speak(newString);
                 }
                 else {
                     speak("I couldn't get that, please say it again");
