@@ -4,10 +4,7 @@ package bonfirestudio.realtalk;
 import android.content.Intent;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -15,6 +12,9 @@ public class LanguageChoiceActivity extends AppCompatActivity {
     private TextToSpeech textToSpeech;
     private String[] text;
     private Button backBtn;
+    private Button playAgainBtn;
+
+    private String temp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +39,7 @@ public class LanguageChoiceActivity extends AppCompatActivity {
                         newString = sb.toString().replace("*", "");
                     }
                     speak(newString);
+                    temp = new String(newString);
                 }
                 else {
                     speak("I couldn't get that, please say it again");
@@ -53,6 +54,15 @@ public class LanguageChoiceActivity extends AppCompatActivity {
                 startActivity(new Intent(LanguageChoiceActivity.this, MainActivity.class));
             }
         });
+
+        playAgainBtn = (Button)findViewById(R.id.playAgainBtn);
+        playAgainBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                speak(temp);
+            }
+        });
+
 
 
     }

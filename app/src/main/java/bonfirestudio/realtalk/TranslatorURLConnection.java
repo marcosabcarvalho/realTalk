@@ -12,6 +12,7 @@ import javax.net.ssl.HttpsURLConnection;
  * Created by indig_000 on 2016-06-25.
  */
 public class TranslatorURLConnection {
+
     private static final String USER_AGENT = "Mozilla/5.0";
 
     private TranslatorURLConnection() {};
