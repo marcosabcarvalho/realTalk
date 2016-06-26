@@ -18,7 +18,6 @@
         android:text="Translate Something Else"
         android:textColor="#fff"
         android:background="#80000000"
-
         android:id="@+id/backBtn"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
@@ -31,4 +30,19 @@
         android:id="@+id/playAgainBtn"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="what's up homie how are you doing>FE:F>R"
+        android:paddingRight="16dp"
+        android:paddingLeft="16dp"
+        android:id="@+id/dialogueText"
+        android:layout_marginTop="49dp"
+        android:textColor="#fff"
+        android:textStyle="italic"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
+
 </RelativeLayout>

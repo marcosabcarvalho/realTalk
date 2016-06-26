@@ -7,6 +7,7 @@ import android.speech.tts.TextToSpeech;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 public class LanguageChoiceActivity extends AppCompatActivity {
     private TextToSpeech textToSpeech;
@@ -16,11 +17,16 @@ public class LanguageChoiceActivity extends AppCompatActivity {
 
     private String temp;
 
+    private TextView dialogueText;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_language_choice);
         text = getIntent().getExtras().getStringArray("text");
+
+        dialogueText = (TextView) findViewById(R.id.dialogueText);
+
         Toast.makeText(LanguageChoiceActivity.this, text.toString(), Toast.LENGTH_LONG);
 
         textToSpeech = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
@@ -35,6 +41,7 @@ public class LanguageChoiceActivity extends AppCompatActivity {
                     }
                     String newString = new String();
                     newString = sb.toString();
+                    dialogueText.setText(newString);
                     if(sb.toString().contains("*")) {
                         newString = sb.toString().replace("*", "");
                     }
@@ -55,6 +62,7 @@ public class LanguageChoiceActivity extends AppCompatActivity {
             }
         });
 
+
         playAgainBtn = (Button)findViewById(R.id.playAgainBtn);
         playAgainBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,14 +73,11 @@ public class LanguageChoiceActivity extends AppCompatActivity {
 
 
 
-    }
 
+    }
 
     private void speak(String textToSpeak) {
         //textToSpeech.setSpeechRate(100);
         textToSpeech.speak(textToSpeak, TextToSpeech.QUEUE_FLUSH, null, "unique");
-
     }
-
-
 }
