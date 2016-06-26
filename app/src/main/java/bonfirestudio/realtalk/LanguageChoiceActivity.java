@@ -39,9 +39,9 @@ public class LanguageChoiceActivity extends AppCompatActivity {
     private Button playAgainBtn;
     private Spinner langSpinner;
 
-    private String keyCode;
+    private String[] keyCode;
 
-    private Map<String, String> langKeyMap;
+    private Map<String, String[]> langKeyMap;
 
     private TextView dialogueText;
     private TextView translatedDialogueText;
@@ -58,17 +58,20 @@ public class LanguageChoiceActivity extends AppCompatActivity {
         ArrayAdapter<String> stringArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, values);
         langSpinner.setAdapter(stringArrayAdapter);
 
-        langKeyMap = new HashMap<>();
-        langKeyMap.put("English", "en_US");
-        langKeyMap.put("French","fr_FR");
-        langKeyMap.put("Spanish","es_ES");
-        langKeyMap.put("Japanese","ja_JP");
-        langKeyMap.put("Chinese","zh_CN");
-        langKeyMap.put("Hindi","hi_IN");
-        langKeyMap.put("Arabic","ar_KR");
-        langKeyMap.put("Korean","ko_DE");
-        langKeyMap.put("German","de_EG");
+        translatedDialogueText = (TextView) findViewById(R.id.translatedDialogueText);
 
+        langKeyMap = new HashMap<>();
+        langKeyMap.put("English", new String[]{"en_US", "en"});
+        langKeyMap.put("French",new String[]{"fr_FR", "fr"});
+        langKeyMap.put("Spanish", new String[]{"es_ES","es"});
+        langKeyMap.put("Japanese", new String[]{"ja_JP", "ja"});
+        langKeyMap.put("Chinese", new String[]{"zh_CN", "zh"});
+        langKeyMap.put("Hindi", new String[]{"hi_IN", "hi"});
+        langKeyMap.put("Arabic", new String[]{"ar_KR", "ar"});
+        langKeyMap.put("Korean", new String[]{"ko_DE", "ko"});
+        langKeyMap.put("German", new String[]{"de_EG", "de"});
+
+        keyCode = langKeyMap.get("English");
 
         langSpinner.setOnItemSelectedListener((new AdapterView.OnItemSelectedListener(){
             @Override
@@ -140,13 +143,11 @@ public class LanguageChoiceActivity extends AppCompatActivity {
             @Override
             public void run() {
                 try {
-                    newString = TranslatorURLConnection.sendPost(keyCode, newString);
+                    newString = TranslatorURLConnection.sendPost(keyCode[1], newString);
 
                     int length = newString.length();
 
                     newString = newString.replace("[", "").replace("]", "").replace("\"", "").replace("\\", "").replace("'", "");
-                    translatedDialogueText = (TextView) findViewById(R.id.translatedDialogueText);
-                    translatedDialogueText.setText(newString);
                 }
                 catch (NetworkOnMainThreadException e){
                     Log.d("Exception", "NetworkOnMainThreadException caughtttttt");
@@ -165,7 +166,8 @@ public class LanguageChoiceActivity extends AppCompatActivity {
         }catch (Exception e){
             Log.d("tag", "Why");
         }
-        Locale locale = new Locale(keyCode);
+        translatedDialogueText.setText(newString);
+        Locale locale = new Locale(keyCode[0]);
         textToSpeech.setLanguage(locale);
         textToSpeech.speak(newString, TextToSpeech.QUEUE_FLUSH, null, "unique");
     }
