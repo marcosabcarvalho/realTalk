@@ -14,10 +14,8 @@ import android.view.MotionEvent;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import java.util.ArrayList;
 import java.util.Locale;
-
 import at.markushi.ui.CircleButton;
 
 public class MainActivity extends AppCompatActivity {
@@ -59,9 +57,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    /**
-     * Receiving speech input
-     * */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -70,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
             case REQ_CODE_SPEECH_INPUT: {
                 if (resultCode == RESULT_OK && null != data) {
                     ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-                    Intent i = new Intent(MainActivity.this, LanguageChoiceActivity.class);;
+                    Intent i = new Intent(MainActivity.this, LanguageChoiceActivity.class);
                     Bundle b = new Bundle();
                     String[] stringToSend = new String[result.size()];
                     stringToSend = result.toArray(stringToSend);
@@ -80,7 +75,6 @@ public class MainActivity extends AppCompatActivity {
                 }
                 break;
             }
-
         }
     }
 

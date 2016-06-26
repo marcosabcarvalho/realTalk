@@ -5,13 +5,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.NetworkOnMainThreadException;
 import android.speech.tts.TextToSpeech;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+<<<<<<< HEAD
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+=======
+>>>>>>> 5f29440c321d5d44478f8917e43dde08bafe7dda
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.simple.parser.ParseException;
@@ -26,12 +28,20 @@ public class LanguageChoiceActivity extends AppCompatActivity {
     private TextToSpeech textToSpeech;
     private String[] text;
     private Button backBtn;
+    private Button playAgainBtn;
+
+    private String temp;
+
+    private TextView dialogueText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_language_choice);
         text = getIntent().getExtras().getStringArray("text");
+
+        dialogueText = (TextView) findViewById(R.id.dialogueText);
+
         Toast.makeText(LanguageChoiceActivity.this, text.toString(), Toast.LENGTH_LONG);
 
         textToSpeech = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
@@ -46,10 +56,12 @@ public class LanguageChoiceActivity extends AppCompatActivity {
                     }
                     //String newString = new String();
                     newString = sb.toString();
+                    dialogueText.setText(newString);
                     if(sb.toString().contains("*")) {
                         newString = sb.toString().replace("*", "");
                     }
                     speak(newString);
+                    temp = new String(newString);
                 }
                 else {
                     speak("I couldn't get that, please say it again");
@@ -66,11 +78,22 @@ public class LanguageChoiceActivity extends AppCompatActivity {
         });
 
 
-    }
+        playAgainBtn = (Button)findViewById(R.id.playAgainBtn);
+        playAgainBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                speak(temp);
+            }
+        });
 
+
+
+
+    }
 
     private void speak(String textToSpeak) {
         //textToSpeech.setSpeechRate(100);
+
         Log.d("tag", "Passed into speak method: " + textToSpeak);
         //TranslatorURLConnection.sendPost("fr", "Hello I am speaking in English");
         Thread thread = new Thread(new Runnable() {
@@ -101,6 +124,4 @@ public class LanguageChoiceActivity extends AppCompatActivity {
         textToSpeech.setLanguage(locale);
         textToSpeech.speak(newString, TextToSpeech.QUEUE_FLUSH, null, "unique");
     }
-
-
 }
