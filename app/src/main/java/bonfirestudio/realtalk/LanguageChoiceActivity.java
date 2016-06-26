@@ -3,15 +3,26 @@ package bonfirestudio.realtalk;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.NetworkOnMainThreadException;
 import android.speech.tts.TextToSpeech;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
+
+import org.json.simple.parser.ParseException;
+
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.UnknownServiceException;
+import java.util.Locale;
+
 public class LanguageChoiceActivity extends AppCompatActivity {
+    private String newString = new String();
     private TextToSpeech textToSpeech;
     private String[] text;
     private Button backBtn;
@@ -33,7 +44,7 @@ public class LanguageChoiceActivity extends AppCompatActivity {
                         sb.append("");
                         break;
                     }
-                    String newString = new String();
+                    //String newString = new String();
                     newString = sb.toString();
                     if(sb.toString().contains("*")) {
                         newString = sb.toString().replace("*", "");
@@ -60,8 +71,35 @@ public class LanguageChoiceActivity extends AppCompatActivity {
 
     private void speak(String textToSpeak) {
         //textToSpeech.setSpeechRate(100);
-        textToSpeech.speak(textToSpeak, TextToSpeech.QUEUE_FLUSH, null, "unique");
+        Log.d("tag", "Passed into speak method: " + textToSpeak);
+        //TranslatorURLConnection.sendPost("fr", "Hello I am speaking in English");
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    //textToSpeak = TranslatorURLConnection.sendPost("fr", textToSpeak);
+                    newString = TranslatorURLConnection.sendPost("fr", newString);
+                }
+                catch (NetworkOnMainThreadException e){
+                    Log.d("Exception", "NetworkOnMainThreadException caughtttttt");
+                }
+                catch (Exception e) {
+                    Log.e("tag", "Exception caught " + e.getMessage() + " " + e.getStackTrace());
+                    System.out.println(e.getMessage() + " " + e.getStackTrace() + e.getCause());
+                }
+            }
+        });
+        thread.start();
 
+        try {
+            //thread.sleep(5000);
+            thread.join();
+        }catch (Exception e){
+            Log.d("tag", "Why");
+        }
+        Locale locale = new Locale("fr");
+        textToSpeech.setLanguage(locale);
+        textToSpeech.speak(newString, TextToSpeech.QUEUE_FLUSH, null, "unique");
     }
 
 

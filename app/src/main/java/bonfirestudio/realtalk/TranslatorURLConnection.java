@@ -1,5 +1,7 @@
 package bonfirestudio.realtalk;
 
+import android.util.Log;
+
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import java.io.BufferedReader;
@@ -23,6 +25,8 @@ public class TranslatorURLConnection {
         URL obj = new URL(url);
         HttpsURLConnection con = (HttpsURLConnection) obj.openConnection();
 
+        Log.d("tag", "Opened HTTP URL Connection");
+
         //add request header
         con.setRequestMethod("POST");
         con.setRequestProperty("User-Agent", USER_AGENT);
@@ -30,12 +34,16 @@ public class TranslatorURLConnection {
 
         String urlParameters = "lang="+ language +"&text='"+ text +"'&key=trnsl.1.1.20160625T173147Z.970d09e8322d1eca.7410911983e269b1b50b0d89744990ece5bd3269";
 
+        Log.d("tag", "Set POST request");
+
         // Send post request
         con.setDoOutput(true);
-        DataOutputStream wr = new DataOutputStream(con.getOutputStream());
+        DataOutputStream wr = new DataOutputStream(con.getOutputStream()); //WHAT THE FUCK?
         wr.writeBytes(urlParameters);
         wr.flush();
         wr.close();
+
+        Log.d("tag", "Finished writing");
 
         int responseCode = con.getResponseCode();
         System.out.println("\nSending 'POST' request to URL : " + url);

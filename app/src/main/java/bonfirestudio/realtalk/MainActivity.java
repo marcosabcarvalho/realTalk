@@ -2,9 +2,11 @@ package bonfirestudio.realtalk;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.os.NetworkOnMainThreadException;
 import android.speech.RecognizerIntent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
@@ -39,7 +41,6 @@ public class MainActivity extends AppCompatActivity {
                       //  Toast.makeText(MainActivity.this,"PROCESSING",Toast.LENGTH_SHORT).show();
             }
         });
-
     }
 
     private void promptSpeechInput() {
