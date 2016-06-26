@@ -2,21 +2,21 @@ package bonfirestudio.realtalk;
 
 
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.os.NetworkOnMainThreadException;
 import android.speech.tts.TextToSpeech;
 import android.support.v7.app.AppCompatActivity;
-<<<<<<< HEAD
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-=======
->>>>>>> 5f29440c321d5d44478f8917e43dde08bafe7dda
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.simple.parser.ParseException;
+import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -33,6 +33,8 @@ public class LanguageChoiceActivity extends AppCompatActivity {
     private String temp;
 
     private TextView dialogueText;
+    private TextView translatedDialogueText;
+    private ImageButton playButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +43,7 @@ public class LanguageChoiceActivity extends AppCompatActivity {
         text = getIntent().getExtras().getStringArray("text");
 
         dialogueText = (TextView) findViewById(R.id.dialogueText);
+
 
         Toast.makeText(LanguageChoiceActivity.this, text.toString(), Toast.LENGTH_LONG);
 
@@ -86,9 +89,6 @@ public class LanguageChoiceActivity extends AppCompatActivity {
             }
         });
 
-
-
-
     }
 
     private void speak(String textToSpeak) {
@@ -102,6 +102,12 @@ public class LanguageChoiceActivity extends AppCompatActivity {
                 try {
                     //textToSpeak = TranslatorURLConnection.sendPost("fr", textToSpeak);
                     newString = TranslatorURLConnection.sendPost("fr", newString);
+
+                    int length = newString.length();
+
+                    newString = newString.replace("[", "").replace("]", "").replace("\"", "").replace("\\", "").replace("'", "");
+                    translatedDialogueText = (TextView) findViewById(R.id.translatedDialogueText);
+                    translatedDialogueText.setText(newString);
                 }
                 catch (NetworkOnMainThreadException e){
                     Log.d("Exception", "NetworkOnMainThreadException caughtttttt");

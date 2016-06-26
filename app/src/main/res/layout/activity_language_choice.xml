@@ -27,22 +27,43 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Play Again"
+        android:textColor="#fff"
+        android:background="@android:color/transparent"
         android:id="@+id/playAgainBtn"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_above="@+id/backBtn"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
+        android:textStyle="bold"
+        android:textSize="20dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="what's up homie how are you doing>FE:F>R"
         android:paddingRight="16dp"
         android:paddingLeft="16dp"
+        android:paddingTop="32dp"
         android:id="@+id/dialogueText"
-        android:layout_marginTop="49dp"
+        android:text="eefwfeweffeewfew"
         android:textColor="#fff"
         android:textStyle="italic"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:paddingRight="16dp"
+        android:paddingLeft="16dp"
+        android:paddingTop="16dp"
+
+        android:id="@+id/translatedDialogueText"
+        android:text="fdsfssfefefe"
+        android:textColor="#fff"
+        android:textStyle="italic"
+        android:layout_below="@+id/dialogueText"
+        android:layout_alignParentStart="true" />
+
 
 </RelativeLayout>
