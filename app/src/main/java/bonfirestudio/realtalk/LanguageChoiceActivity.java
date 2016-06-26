@@ -32,7 +32,7 @@ import java.util.Locale;
 import java.util.Map;
 
 public class LanguageChoiceActivity extends AppCompatActivity {
-    private String newString = new String();
+    private String translatedText;
     private TextToSpeech textToSpeech;
     private String[] text;
     private Button backBtn;
@@ -40,7 +40,7 @@ public class LanguageChoiceActivity extends AppCompatActivity {
     private Spinner langSpinner;
 
     private String[] keyCode;
-
+    private String originalText;
     private Map<String, String[]> langKeyMap;
 
     private TextView dialogueText;
@@ -54,7 +54,7 @@ public class LanguageChoiceActivity extends AppCompatActivity {
         text = getIntent().getExtras().getStringArray("text");
 
         langSpinner = (Spinner)findViewById(R.id.langSpinner);
-        String[] values = {"English", "French", "Spanish", "Japanese", "Chinese", "Hindi", "Arabic", "Korean", "German"};
+        String[] values = {"English", "French", "Spanish", "Japanese", "Chinese", "Hindi", "Russian", "Korean", "German"};
         ArrayAdapter<String> stringArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, values);
         langSpinner.setAdapter(stringArrayAdapter);
 
@@ -67,7 +67,7 @@ public class LanguageChoiceActivity extends AppCompatActivity {
         langKeyMap.put("Japanese", new String[]{"ja_JP", "ja"});
         langKeyMap.put("Chinese", new String[]{"zh_CN", "zh"});
         langKeyMap.put("Hindi", new String[]{"hi_IN", "hi"});
-        langKeyMap.put("Arabic", new String[]{"ar_KR", "ar"});
+        langKeyMap.put("Russian", new String[]{"ru_", "ru"});
         langKeyMap.put("Korean", new String[]{"ko_DE", "ko"});
         langKeyMap.put("German", new String[]{"de_EG", "de"});
 
@@ -102,10 +102,10 @@ public class LanguageChoiceActivity extends AppCompatActivity {
                         break;
                     }
                     //String newString = new String();
-                    newString = sb.toString();
-                    dialogueText.setText(newString);
+                    originalText = sb.toString();
+                    dialogueText.setText(originalText);
                     if(sb.toString().contains("*")) {
-                        newString = sb.toString().replace("*", "");
+                        originalText = sb.toString().replace("*", "");
                     }
                     speak();
                 }
@@ -143,11 +143,9 @@ public class LanguageChoiceActivity extends AppCompatActivity {
             @Override
             public void run() {
                 try {
-                    newString = TranslatorURLConnection.sendPost(keyCode[1], newString);
+                    translatedText = TranslatorURLConnection.sendPost(keyCode[1], originalText);
 
-                    int length = newString.length();
-
-                    newString = newString.replace("[", "").replace("]", "").replace("\"", "").replace("\\", "").replace("'", "");
+                    translatedText = translatedText.replace("[", "").replace("]", "").replace("\"", "").replace("\\", "").replace("'", "");
                 }
                 catch (NetworkOnMainThreadException e){
                     Log.d("Exception", "NetworkOnMainThreadException caughtttttt");
@@ -166,9 +164,9 @@ public class LanguageChoiceActivity extends AppCompatActivity {
         }catch (Exception e){
             Log.d("tag", "Why");
         }
-        translatedDialogueText.setText(newString);
+        translatedDialogueText.setText(translatedText);
         Locale locale = new Locale(keyCode[0]);
         textToSpeech.setLanguage(locale);
-        textToSpeech.speak(newString, TextToSpeech.QUEUE_FLUSH, null, "unique");
+        textToSpeech.speak(translatedText, TextToSpeech.QUEUE_FLUSH, null, "unique");
     }
 }
