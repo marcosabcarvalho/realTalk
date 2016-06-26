@@ -6,22 +6,19 @@ import android.os.Bundle;
 import android.os.NetworkOnMainThreadException;
 import android.speech.tts.TextToSpeech;
 import android.support.v7.app.AppCompatActivity;
-<<<<<<< HEAD
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-=======
->>>>>>> 5f29440c321d5d44478f8917e43dde08bafe7dda
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.json.simple.parser.ParseException;
-
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.UnknownServiceException;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 public class LanguageChoiceActivity extends AppCompatActivity {
     private String newString = new String();
@@ -29,8 +26,11 @@ public class LanguageChoiceActivity extends AppCompatActivity {
     private String[] text;
     private Button backBtn;
     private Button playAgainBtn;
+    private Spinner langSpinner;
 
-    private String temp;
+    private String keyCode;
+
+    private Map<String, String> langKeyMap;
 
     private TextView dialogueText;
 
@@ -39,6 +39,36 @@ public class LanguageChoiceActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_language_choice);
         text = getIntent().getExtras().getStringArray("text");
+
+        langSpinner = (Spinner)findViewById(R.id.langSpinner);
+        String[] values = {"English", "French", "Spanish", "Japanese", "Chinese", "Hindi", "Arabic", "Korean", "German"};
+        ArrayAdapter<String> stringArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, values);
+        langSpinner.setAdapter(stringArrayAdapter);
+
+        langKeyMap = new HashMap<>();
+        langKeyMap.put("English", "en_US");
+        langKeyMap.put("French","fr_FR");
+        langKeyMap.put("Spanish","es_ES");
+        langKeyMap.put("Japanese","ja_JP");
+        langKeyMap.put("Chinese","zh_CN");
+        langKeyMap.put("Hindi","hi_IN");
+        langKeyMap.put("Arabic","ar_KR");
+        langKeyMap.put("Korean","ko_DE");
+        langKeyMap.put("German","de_EG");
+
+
+        langSpinner.setOnItemSelectedListener((new AdapterView.OnItemSelectedListener(){
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                  keyCode = langKeyMap.get(parent.getItemAtPosition(position).toString());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        }));
+
 
         dialogueText = (TextView) findViewById(R.id.dialogueText);
 
@@ -60,11 +90,10 @@ public class LanguageChoiceActivity extends AppCompatActivity {
                     if(sb.toString().contains("*")) {
                         newString = sb.toString().replace("*", "");
                     }
-                    speak(newString);
-                    temp = new String(newString);
+                    speak();
                 }
                 else {
-                    speak("I couldn't get that, please say it again");
+                    speak();
                 }
             }
         });
@@ -82,7 +111,7 @@ public class LanguageChoiceActivity extends AppCompatActivity {
         playAgainBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                speak(temp);
+                speak();
             }
         });
 
@@ -91,17 +120,17 @@ public class LanguageChoiceActivity extends AppCompatActivity {
 
     }
 
-    private void speak(String textToSpeak) {
+    private void speak() {
         //textToSpeech.setSpeechRate(100);
 
-        Log.d("tag", "Passed into speak method: " + textToSpeak);
+        //Log.d("tag", "Passed into speak method: " + textToSpeak);
         //TranslatorURLConnection.sendPost("fr", "Hello I am speaking in English");
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
                     //textToSpeak = TranslatorURLConnection.sendPost("fr", textToSpeak);
-                    newString = TranslatorURLConnection.sendPost("fr", newString);
+                    newString = TranslatorURLConnection.sendPost("en", newString);
                 }
                 catch (NetworkOnMainThreadException e){
                     Log.d("Exception", "NetworkOnMainThreadException caughtttttt");
@@ -120,7 +149,7 @@ public class LanguageChoiceActivity extends AppCompatActivity {
         }catch (Exception e){
             Log.d("tag", "Why");
         }
-        Locale locale = new Locale("fr");
+        Locale locale = new Locale(keyCode);
         textToSpeech.setLanguage(locale);
         textToSpeech.speak(newString, TextToSpeech.QUEUE_FLUSH, null, "unique");
     }

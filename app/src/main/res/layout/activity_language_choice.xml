@@ -28,8 +28,9 @@
         android:layout_height="wrap_content"
         android:text="Play Again"
         android:id="@+id/playAgainBtn"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_above="@+id/backBtn"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="88dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -44,5 +45,13 @@
         android:textStyle="italic"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true" />
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/langSpinner"
+        android:layout_marginTop="89dp"
+        android:layout_below="@+id/dialogueText"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>
