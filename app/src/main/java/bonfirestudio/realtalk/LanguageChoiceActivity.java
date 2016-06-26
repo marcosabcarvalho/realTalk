@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -47,14 +48,20 @@ public class LanguageChoiceActivity extends AppCompatActivity {
     private TextView translatedDialogueText;
     private ImageButton playButton;
 
+    private ImageView meme;
+
+    private boolean isDankMeme;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_language_choice);
+        isDankMeme = false;
         text = getIntent().getExtras().getStringArray("text");
 
         langSpinner = (Spinner)findViewById(R.id.langSpinner);
-        String[] values = {"English", "French", "Spanish", "Japanese", "Chinese", "Hindi", "Russian", "Korean", "German"};
+        String[] values = {"English", "French", "Spanish", "Japanese", "Chinese", "Hindi", "Russian", "Korean", "Dank Memez"};
+
         ArrayAdapter<String> stringArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, values);
         langSpinner.setAdapter(stringArrayAdapter);
 
@@ -69,7 +76,8 @@ public class LanguageChoiceActivity extends AppCompatActivity {
         langKeyMap.put("Hindi", new String[]{"hi_IN", "hi"});
         langKeyMap.put("Russian", new String[]{"ru_", "ru"});
         langKeyMap.put("Korean", new String[]{"ko_DE", "ko"});
-        langKeyMap.put("German", new String[]{"de_EG", "de"});
+        langKeyMap.put("Dank Memez", new String[]{"de_EG", "de"});
+
 
         keyCode = langKeyMap.get("English");
 
@@ -77,6 +85,9 @@ public class LanguageChoiceActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                   keyCode = langKeyMap.get(parent.getItemAtPosition(position).toString());
+                  if(position == 8) {
+                      isDankMeme = true;
+                  }
             }
 
             @Override
@@ -85,9 +96,7 @@ public class LanguageChoiceActivity extends AppCompatActivity {
             }
         }));
 
-
         dialogueText = (TextView) findViewById(R.id.dialogueText);
-
 
         Toast.makeText(LanguageChoiceActivity.this, text.toString(), Toast.LENGTH_LONG);
 
@@ -95,22 +104,25 @@ public class LanguageChoiceActivity extends AppCompatActivity {
             @Override
             public void onInit(int status) {
                 if(status == TextToSpeech.SUCCESS) {
+
                     StringBuilder sb = new StringBuilder();
-                    for(String s: text) {
-                        sb.append(s);
-                        sb.append("");
-                        break;
+                    for (String s : text) {
+                            sb.append(s);
+                            sb.append("");
+                            break;
                     }
-                    //String newString = new String();
+
                     originalText = sb.toString();
                     dialogueText.setText(originalText);
-                    if(sb.toString().contains("*")) {
-                        originalText = sb.toString().replace("*", "");
-                    }
+
+
+
+
+
                     speak();
-                }
-                else {
-                    speak();
+
+
+
                 }
             }
         });
@@ -128,7 +140,7 @@ public class LanguageChoiceActivity extends AppCompatActivity {
         playAgainBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                speak();
+                    speak();
             }
         });
 
@@ -143,14 +155,13 @@ public class LanguageChoiceActivity extends AppCompatActivity {
             @Override
             public void run() {
                 try {
+
                     translatedText = TranslatorURLConnection.sendPost(keyCode[1], originalText);
 
                     translatedText = translatedText.replace("[", "").replace("]", "").replace("\"", "").replace("\\", "").replace("'", "");
-                }
-                catch (NetworkOnMainThreadException e){
+                } catch (NetworkOnMainThreadException e) {
                     Log.d("Exception", "NetworkOnMainThreadException caughtttttt");
-                }
-                catch (Exception e) {
+                } catch (Exception e) {
                     Log.e("tag", "Exception caught " + e.getMessage() + " " + e.getStackTrace());
                     System.out.println(e.getMessage() + " " + e.getStackTrace() + e.getCause());
                 }
@@ -161,12 +172,38 @@ public class LanguageChoiceActivity extends AppCompatActivity {
         try {
             //thread.sleep(5000);
             thread.join();
-        }catch (Exception e){
+        } catch (Exception e) {
             Log.d("tag", "Why");
         }
-        translatedDialogueText.setText(translatedText);
-        Locale locale = new Locale(keyCode[0]);
-        textToSpeech.setLanguage(locale);
-        textToSpeech.speak(translatedText, TextToSpeech.QUEUE_FLUSH, null, "unique");
+
+        if (isDankMeme){
+            translatedDialogueText.setText("Translated Dank Meme:");
+
+            int memeRand = (int) ((Math.random()*5));
+            meme = (ImageView) findViewById(R.id.imageView);
+
+            if (memeRand == 0)
+                meme.setImageResource(R.drawable.datboi);
+            else if (memeRand == 1)
+                meme.setImageResource(R.drawable.dt);
+            else if (memeRand == 2)
+                meme.setImageResource(R.drawable.krabs);
+            else if (memeRand == 3)
+                meme.setImageResource(R.drawable.pepe1);
+            else if (memeRand == 4)
+                meme.setImageResource(R.drawable.pepe2);
+            else if (memeRand == 5)
+                meme.setImageResource(R.drawable.spongegar);
+
+            isDankMeme = false;
+
+        }
+        else{
+
+            translatedDialogueText.setText(translatedText);
+            Locale locale = new Locale(keyCode[0]);
+            textToSpeech.setLanguage(locale);
+            textToSpeech.speak(translatedText, TextToSpeech.QUEUE_FLUSH, null, "unique");
+        }
     }
 }
