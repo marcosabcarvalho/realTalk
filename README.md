@@ -13,5 +13,3 @@ Zeqi
 Sanjay
 Victor
 Jackson
-
-Waterloo EngHack 2016
